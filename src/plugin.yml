@@ -1,0 +1,10 @@
+name: PersonalWorlds
+main: com.gravypod.PersonalWorlds.PersonalWorlds
+version: 1.0
+author: Gravypod
+description: A plugin for making small per-player worlds!
+commands: 
+  personalworlds: 
+    aliases: 
+      - pw
+    discription: Private worlds done right!
