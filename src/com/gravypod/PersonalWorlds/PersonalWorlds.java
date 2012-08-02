@@ -37,7 +37,7 @@ public class PersonalWorlds extends JavaPlugin {
 			
 		} else if (!worldsFolder.canRead() || !worldsFolder.canWrite()) {
 			
-			throw new IllegalStateException("You do not have Read/Write acess for the server root folder!");
+			throw new IllegalStateException("You do not have Read/Write access for the server root folder!");
 			
 		}
 		
