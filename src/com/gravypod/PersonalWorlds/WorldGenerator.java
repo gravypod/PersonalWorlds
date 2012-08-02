@@ -52,7 +52,7 @@ public class WorldGenerator {
 			String genName = plugin.getGenerator(generator);
 				
 			if (genName == null) {
-				player.sendMessage("Thats not a real generator. Here is a list" + plugin.joinedGenList());
+				player.sendMessage("That is not a real generator. Here is a list" + plugin.joinedGenList());
 				return;
 			}
 		
@@ -114,7 +114,7 @@ public class WorldGenerator {
 			
 			});
 			
-			player.sendMessage("Your world is done!!");
+			player.sendMessage("Your world has generated!");
 			
 		} else {
 			
