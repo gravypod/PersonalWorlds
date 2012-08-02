@@ -57,7 +57,7 @@ public class PlayerListener implements Listener {
 				
 				p.teleport(PluginUtil.safeSpawnLoc(loc));
 				
-				p.sendMessage("You have reached the end of that players world!");
+				p.sendMessage("You have reached the end of this world!");
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public class PlayerListener implements Listener {
 		
 		final String playerName = event.getPlayer().getName();
 		
-		PluginUtil.kickPlayersOut(playerName, false, "The worlds owner has left the game! You have been removed.");;
+		PluginUtil.kickPlayersOut(playerName, false, "The worlds owner has left the game! You have been kicked out.");;
 		
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			@Override
@@ -120,10 +120,11 @@ public class PlayerListener implements Listener {
 		
 		if (PluginUtil.isPlayerWorld(player.getName())) {
 			if (PluginUtil.borderTest(event.getTo())) {
-				player.sendMessage("You cannot tp out of your world!");
+				player.sendMessage("You cannot teleport out of your world!");
 				event.setCancelled(true);
 			}
 		}
 		
 	}
-	}
+	
+}

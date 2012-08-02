@@ -23,7 +23,7 @@ public class PersonalWorlds extends JavaPlugin {
 		
 		generators = new ArrayList<String>();
 		
-		log.info("Starting PersonalWorld. Made by gravypod");
+		log.info("Enabling PersonalWorlds. Made by Gravypod");
 		
 		getCommand(getPluginName()).setExecutor(new CommandHandler(this));
 		getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
@@ -37,7 +37,7 @@ public class PersonalWorlds extends JavaPlugin {
 			
 		} else if (!worldsFolder.canRead() || !worldsFolder.canWrite()) {
 			
-			throw new IllegalStateException("You do not have Read/Write for the server root!");
+			throw new IllegalStateException("You do not have Read/Write access for the server root folder!");
 			
 		}
 		
@@ -46,7 +46,7 @@ public class PersonalWorlds extends JavaPlugin {
 			public void run() {
 				
 		        Plugin[] plugins = getServer().getPluginManager().getPlugins();
-		        log.warning("Ignore the 'Plugin {Plugin} does not contain any generators'");
+		        log.warning("Ignore the message: 'Plugin {Plugin} does not contain any generators'");
 		        
 		        for (Plugin p : plugins) {
 		        	// Collect a list of generators
@@ -70,7 +70,7 @@ public class PersonalWorlds extends JavaPlugin {
 		
 		generators = null;
 		
-		log.info("Ending PersonalWorld. Made by gravypod");
+		log.info("Disabling PersonalWorlds. Made by gravypod");
 		
 	}
 	
