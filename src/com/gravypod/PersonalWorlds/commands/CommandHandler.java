@@ -40,7 +40,7 @@ public class CommandHandler implements CommandExecutor {
 		if (sender instanceof Player) {
 			player = (Player) sender;
 		} else {
-			sender.sendMessage("You are not in game! You cannot use that!");
+			sender.sendMessage("You are not in game! You cannot use that command!");
 			return true;
 		}
 		
@@ -83,7 +83,7 @@ public class CommandHandler implements CommandExecutor {
 				}
 				return true;
 			case generator:
-				player.sendMessage("The generators you can use are" + plugin.joinedGenList());
+				player.sendMessage("The generators you can use are:" + plugin.joinedGenList());
 				return true;
 			case delete:
 				if (args.length == 2) {
@@ -111,11 +111,11 @@ public class CommandHandler implements CommandExecutor {
 	public void help(CommandSender sender) {
 		
 		sender.sendMessage("---]Help[---");
-		sender.sendMessage("help - this");
-		sender.sendMessage("tp - tp to your world");
+		sender.sendMessage("help - This page");
+		sender.sendMessage("tp - Teleport to your world");
 		sender.sendMessage("add/create {generator} - Create your own world.");
-		sender.sendMessage("generator - List generators you can use");
-		sender.sendMessage("delete - Delete a world. NOT UN-DOABLE!");
+		sender.sendMessage("generator - Lists the generators you can use");
+		sender.sendMessage("delete - Delete a world. Cannot be undone!");
 		
 	}
 	
