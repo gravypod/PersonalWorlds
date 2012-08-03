@@ -26,7 +26,7 @@ public class Generator {
 	
 	private static void command(Player player, String[] args, PersonalWorlds plugin) {
 		
-		player.sendMessage("The generators you can use are:" + plugin.joinedGenList());
+		player.sendMessage("The generators you can use are: " + plugin.joinedGenList());
 		
 	}
 	

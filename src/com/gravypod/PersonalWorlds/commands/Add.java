@@ -36,7 +36,7 @@ public class Add {
 			
 		} else {
 			
-			player.sendMessage("That was not a real generator, here is a list" + plugin.joinedGenList());
+			player.sendMessage("Invalid generator. choose one of the following generators: " + plugin.joinedGenList());
 			
 		}
 		

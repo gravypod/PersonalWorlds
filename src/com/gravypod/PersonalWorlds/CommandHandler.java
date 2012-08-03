@@ -25,7 +25,6 @@ public class CommandHandler implements CommandExecutor {
 	private static String cmd;
 	private static String[] args;
 	
-	
 	public CommandHandler(PersonalWorlds plugin) {
 		
 		CommandHandler.plugin = plugin;
@@ -53,6 +52,7 @@ public class CommandHandler implements CommandExecutor {
 		String argument = WordUtils.capitalize(args[0].toLowerCase());
 		
 		if (plugin.getCommands().contains("com.gravypod.PersonalWorlds.commands." + argument + ".class")) {
+			
 			try {
 				
 				CommandHandler.sender = sender;
@@ -67,7 +67,6 @@ public class CommandHandler implements CommandExecutor {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 			
 		}
 		

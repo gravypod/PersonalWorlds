@@ -15,6 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.gravypod.PersonalWorlds.utils.PluginUtil;
+
 /**
  * This is called to create a new player world.
  * Must be passed a PersonalWorlds instance.

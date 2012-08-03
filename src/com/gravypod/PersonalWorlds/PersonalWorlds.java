@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gravypod.PersonalWorlds.Listener.PlayerListener;
+import com.gravypod.PersonalWorlds.utils.PluginUtil;
 
 public class PersonalWorlds extends JavaPlugin {
 
@@ -117,10 +118,11 @@ public class PersonalWorlds extends JavaPlugin {
 		String generatorsList = "";
 		
 		for (String gen : generators) {
-			generatorsList += ", " + gen.toLowerCase();
+			generatorsList += gen.toLowerCase() + ", ";
 		}
 		
-		return generatorsList;
+		
+		return (generatorsList.length() >= 1) ? generatorsList.substring(0, generatorsList.length() - 2) : "";
 		
 	}
 

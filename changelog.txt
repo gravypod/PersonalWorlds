@@ -6,3 +6,5 @@ Version 1.1:
 	- Fix a bug with the "/pw add" command
 	- Better grammar! (Thank you Necrodoom!)
 	- Epic command handler. (Thank you ElgarL!)
+	- Teleport Util class added
+	- More grammar de-muckery (Thank you Necrodoom!)

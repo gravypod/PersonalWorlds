@@ -19,7 +19,7 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.gravypod.PersonalWorlds.PersonalWorlds;
-import com.gravypod.PersonalWorlds.PluginUtil;
+import com.gravypod.PersonalWorlds.utils.PluginUtil;
 
 /**
  * Handler for player events.
@@ -87,7 +87,7 @@ public class PlayerListener implements Listener {
 		
 		final String playerName = event.getPlayer().getName();
 		
-		PluginUtil.kickPlayersOut(playerName, false, "The worlds owner has left the game! You have been kicked out.");;
+		PluginUtil.kickPlayersOut(playerName, false, "The world owner has left the game! You have been kicked out.");;
 		
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			@Override

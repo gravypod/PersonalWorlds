@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import com.gravypod.PersonalWorlds.CommandHandler;
 import com.gravypod.PersonalWorlds.PersonalWorlds;
-import com.gravypod.PersonalWorlds.PluginUtil;
+import com.gravypod.PersonalWorlds.utils.PluginUtil;
 
 /**
  * This deals with the argument "delete"
