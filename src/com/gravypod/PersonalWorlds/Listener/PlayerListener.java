@@ -87,7 +87,7 @@ public class PlayerListener implements Listener {
 		
 		final String playerName = event.getPlayer().getName();
 		
-		PluginUtil.kickPlayersOut(playerName, false, "The worlds owner has left the game! You have been kicked out.");;
+		PluginUtil.kickPlayersOut(playerName, false, "The world owner has left the game! You have been kicked out.");;
 		
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			@Override
