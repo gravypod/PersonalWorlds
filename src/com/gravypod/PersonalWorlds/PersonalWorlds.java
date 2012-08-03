@@ -10,18 +10,20 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gravypod.PersonalWorlds.Listener.PlayerListener;
-import com.gravypod.PersonalWorlds.commands.CommandHandler;
 
 public class PersonalWorlds extends JavaPlugin {
 
 	Logger log = Logger.getLogger("Minecraft");
 	
 	private List<String> generators = null;
+	private List<String> commands = null;
 	
 	@Override
 	public void onEnable() {
 		
 		generators = new ArrayList<String>();
+		
+		commands = ListClasses.getClasseNamesInPackage(this.getFile().getAbsolutePath(), "com.gravypod.PersonalWorlds.commands.");
 		
 		log.info("Enabling PersonalWorlds. Made by Gravypod");
 		
@@ -69,6 +71,7 @@ public class PersonalWorlds extends JavaPlugin {
 	public void onDisable() {
 		
 		generators = null;
+		commands = null;
 		
 		log.info("Disabling PersonalWorlds. Made by gravypod");
 		
@@ -119,6 +122,14 @@ public class PersonalWorlds extends JavaPlugin {
 		
 		return generatorsList;
 		
+	}
+
+	public List<String> getCommands() {
+		return commands;
+	}
+
+	public void setCommands(List<String> commands) {
+		this.commands = commands;
 	}
 
 }
