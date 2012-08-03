@@ -30,7 +30,8 @@ import com.gravypod.PersonalWorlds.utils.PluginUtil;
 public class PlayerListener implements Listener {
 
 	PersonalWorlds plugin;
-
+	private static volatile int moveChecks;
+	
 	public PlayerListener(PersonalWorlds plugin) {
 
 		this.plugin = plugin;
@@ -39,6 +40,13 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void playerListener(PlayerMoveEvent event) {
+		
+		moveChecks++;
+		
+		if (moveChecks != 10)
+			return;
+		
+		moveChecks = 0;
 		
 		Player player = event.getPlayer();
 			

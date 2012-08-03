@@ -8,3 +8,4 @@ Version 1.1:
 	- Epic command handler. (Thank you ElgarL!)
 	- Teleport Util class added
 	- More grammar de-muckery (Thank you Necrodoom!)
+	- New on move event change. Only check 1/10 moves. (Thank you snowleo!)
