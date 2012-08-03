@@ -40,13 +40,11 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void playerListener(PlayerMoveEvent event) {
 		
-		Player p = event.getPlayer();
+		Player player = event.getPlayer();
 			
-		World playerWorld = event.getPlayer().getWorld();
-		
 		// Checks if the player name == a world name; If so, it /must/ be a player world
 		
-		List<MetadataValue> m = playerWorld.getMetadata(plugin.getPluginName());
+		List<MetadataValue> m = player.getWorld().getMetadata(plugin.getPluginName());
 		
 		if(m.isEmpty())
 			return;
@@ -57,9 +55,9 @@ public class PlayerListener implements Listener {
 			
 			if (PluginUtil.borderTest(loc)) {
 				
-				p.teleport(PluginUtil.safeSpawnLoc(loc));
+				player.teleport(PluginUtil.safeSpawnLoc(loc));
 				
-				p.sendMessage("You have reached the end of this world!");
+				player.sendMessage("You have reached the end of this world!");
 			}
 		}
 	}
