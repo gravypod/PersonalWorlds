@@ -86,7 +86,7 @@ public class Tp {
 		}
 		
 		if (!friend.getWorld().equals(world)) {
-			friend.sendMessage(player.getName() + " has gone to your world!");
+			friend.sendMessage(player.getName() + " has teleported to your world!");
 		}
 		
 		Location spawnLocation = world.getSpawnLocation();
