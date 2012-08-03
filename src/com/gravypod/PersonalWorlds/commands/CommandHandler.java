@@ -69,17 +69,11 @@ public class CommandHandler implements CommandExecutor {
 				}
 				return true;
 			case add:
-				if (args.length == 2) {
-					add(player, args[1]);
-				} else {
-					help(sender);
-				}
-				return true;
 			case create:
 				if (args.length == 2) {
 					add(player, args[1]);
-				} else  {
-					help(sender);
+				} else {
+					player.sendMessage("The generators you can use are:" + plugin.joinedGenList());
 				}
 				return true;
 			case generator:
@@ -87,7 +81,12 @@ public class CommandHandler implements CommandExecutor {
 				return true;
 			case delete:
 				if (args.length == 2) {
-					deleteWorld(args[1]);
+					if (player.hasPermission(plugin.getPluginName() + "." + args[0] + "other"))
+						deleteWorld(args[1]);
+					else if (player.getName().equalsIgnoreCase(args[1]))
+						deleteWorld(args[1]);
+					else 
+						player.sendMessage("You cannot delete that players world!");
 				} else {
 					help(sender);
 				}

@@ -1,3 +1,7 @@
 Version 1.0:
 	- Initial commit
 	- Necrodoom: Fix gravypods grammar
+Version 1.1:
+	- People cant leave boarder in boats
+	- Fix a bug with the "/pw add" command
+	- Better grammar! (Thank you Necrodoom!)

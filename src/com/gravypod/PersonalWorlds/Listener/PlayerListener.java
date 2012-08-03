@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,6 +15,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.gravypod.PersonalWorlds.PersonalWorlds;
@@ -111,6 +113,7 @@ public class PlayerListener implements Listener {
 				}
 			}
 		}
+		
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -123,6 +126,30 @@ public class PlayerListener implements Listener {
 				player.sendMessage("You cannot teleport out of your world!");
 				event.setCancelled(true);
 			}
+		}
+		
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void entityMoveEvent(VehicleMoveEvent event) {
+		
+		Vehicle v = event.getVehicle();
+		
+		if (v instanceof Vehicle) {
+			
+			if (v.getPassenger() instanceof Player) {
+			
+				Location l = event.getTo();
+			
+				if (PluginUtil.borderTest(l)) {
+					
+					v.eject();
+					v.remove();
+					
+				}
+			
+			}
+			
 		}
 		
 	}
