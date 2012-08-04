@@ -30,6 +30,7 @@ public class PluginUtil {
 
 	static PersonalWorlds plugin;
 	static Server server;
+	static int borderSize;
 	
 	/**
 	 * Initiation of the static class.
@@ -41,7 +42,7 @@ public class PluginUtil {
 		
 		plugin = init;
 		server = plugin.getServer();
-		
+		borderSize = plugin.getBorderSize();
 	}
 	
 	/**
@@ -262,18 +263,18 @@ public class PluginUtil {
 		
 		boolean hasChanged = false;
 		
-		if (x >= x1 + 200) {
+		if (x >= x1 + borderSize) {
 			destination.setX(x - 5);
 			hasChanged = true;
-		} else if (x <= x1 - 200) {
+		} else if (x <= x1 - borderSize) {
 			destination.setX(x + 5);
 			hasChanged = true;
 		}
 			
-		if (z >= z1 + 200) {
+		if (z >= z1 + borderSize) {
 			destination.setZ(z - 5);
 			hasChanged = true;
-		} else if (z <= z1 - 200) {
+		} else if (z <= z1 - borderSize) {
 			destination.setZ(z + 5);
 			hasChanged = true;
 		}

@@ -35,7 +35,7 @@ public class PlayerListener implements Listener {
 	public PlayerListener(PersonalWorlds plugin) {
 
 		this.plugin = plugin;
-
+		
 	}
 
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

@@ -9,3 +9,6 @@ Version 1.1:
 	- Teleport Util class added
 	- More grammar de-muckery (Thank you Necrodoom!)
 	- New on move event change. Only check 1/10 moves. (Thank you snowleo!)
+Version 1.1.1:
+	- New versioning system. (MC Updates).(Release for that built).(Dev build version)
+	- added CCS (Crappy config system)

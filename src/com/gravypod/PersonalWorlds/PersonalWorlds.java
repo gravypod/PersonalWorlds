@@ -1,6 +1,7 @@
 package com.gravypod.PersonalWorlds;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,9 +19,23 @@ public class PersonalWorlds extends JavaPlugin {
 	
 	private List<String> generators = null;
 	private List<String> commands = null;
+	private int borderSize;
 	
 	@Override
 	public void onEnable() {
+		
+		File config = new File(this.getDataFolder() + System.getProperty("file.separator") + "config.yml");
+		
+		if (!config.exists()) {
+			this.getConfig().options().copyDefaults(true);
+			try {
+				this.getConfig().save(config);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		setBorderSize(this.getConfig().getInt("Borders"));
 		
 		generators = new ArrayList<String>();
 		
@@ -132,6 +147,14 @@ public class PersonalWorlds extends JavaPlugin {
 
 	public void setCommands(List<String> commands) {
 		this.commands = commands;
+	}
+
+	public int getBorderSize() {
+		return borderSize;
+	}
+
+	public void setBorderSize(int borderSize) {
+		this.borderSize = borderSize;
 	}
 
 }
