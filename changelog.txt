@@ -12,3 +12,5 @@ Version 1.1:
 Version 1.1.1:
 	- New versioning system. (MC Updates).(Release for that built).(Dev build version)
 	- added CCS (Crappy config system)
+Version 1.2:
+	- Per-gen permissions
