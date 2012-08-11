@@ -31,11 +31,19 @@ public class Delete {
 			
 			if (player.hasPermission(plugin.getPluginName() + ".delete.other")) {
 				
+				player.sendMessage("You are now deleting " + args[1] + " world!");
+				
 				deleteWorld(args[1]);
+				
+				player.sendMessage("Deleting done!");
 				
 			} else if (player.getName().equalsIgnoreCase(args[1])) {
 				
+				player.sendMessage("You are now deleting your world!");
+				
 				deleteWorld(args[1]);
+				
+				player.sendMessage("Deleting done!");
 				
 			} else {
 				

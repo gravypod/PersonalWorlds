@@ -28,7 +28,7 @@ public class Add {
 	
 	private static void command(Player player, String[] args, PersonalWorlds plugin) {
 		
-		if (args.length == 2) {
+		if (args.length == 2 && player.hasPermission("PersonalWorlds." + args[1])) {
 			
 			new WorldGenerator(plugin, player, args[1]);
 		

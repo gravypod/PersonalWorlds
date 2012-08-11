@@ -43,6 +43,7 @@ public class PluginUtil {
 		plugin = init;
 		server = plugin.getServer();
 		borderSize = plugin.getBorderSize();
+		
 	}
 	
 	/**
@@ -145,14 +146,15 @@ public class PluginUtil {
 	public static Location safeSpawnLoc(Location spawnLocation) {
 		
 		Location blockLocation = spawnLocation;
+		double yLoc = blockLocation.getY();
 		
 		//find the first non air block below us
 		while (blockLocation.getBlock().getType() != Material.AIR) {
-		    blockLocation.setY(blockLocation.getY() + 1);
+		    blockLocation.setY(yLoc + 1);
 		}
 		
 		// set to 1 block up so we are not sunk in the ground
-		blockLocation.setY(blockLocation.getY() + 1);
+		blockLocation.setY(yLoc + 1);
 		
 		return blockLocation;
 		
@@ -323,8 +325,6 @@ public class PluginUtil {
 				
 			});
 			
-			
-			
 		}
 		
 	}
@@ -342,16 +342,22 @@ public class PluginUtil {
 		World world = plugin.getServer().getWorld(PluginUtil.worldName(worldOwner));
 		
 		if (world == null) {
+			
 			return;
+			
 		}
 		
 		Location mainWorldSpawn = plugin.getServer().getWorlds().get(0).getSpawnLocation();
 		
 		for (Player player : world.getPlayers()) {
+			
 			if (!player.getName().equals(worldOwner) || kickall) {
+				
 				player.teleport(mainWorldSpawn);
 				player.sendMessage(kickMessage);
+				
 			}
+			
 		}
 		
 	}
@@ -368,21 +374,34 @@ public class PluginUtil {
 		synchronized(file) {
 			
 			if (file.isDirectory()) {
+				
 				File[] children = file.listFiles();
+				
 				if (children != null) {
+					
 					for (File child : children)
 						deleteFile(child);
+					
 				}
+				
 				children = file.listFiles();
+				
 				if (children == null || children.length == 0) {
+					
 					if (!file.delete())
 						System.out.println("Error: Could not delete folder: " + file.getPath());
+					
 				}
+				
 			} else if (file.isFile()) {
+				
 				if (!file.delete())
 					System.out.println("Error: Could not delete file: " + file.getPath());
+				
 			}
+			
 		}
+		
 	}
 	
 	/**
@@ -438,7 +457,9 @@ public class PluginUtil {
 	    List<Class<?>> classes = new ArrayList<Class<?>>();
 	    
 	    if (!directory.exists()) {
+	    	
 	        return classes;
+	        
 	    }
 	    
 	    File[] files = directory.listFiles();
@@ -461,8 +482,5 @@ public class PluginUtil {
 	    return classes;
 	    
 	}
-	
-	
-	
 	
 }

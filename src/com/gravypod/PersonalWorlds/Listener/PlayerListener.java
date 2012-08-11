@@ -30,7 +30,6 @@ import com.gravypod.PersonalWorlds.utils.PluginUtil;
 public class PlayerListener implements Listener {
 
 	PersonalWorlds plugin;
-	private static volatile int moveChecks;
 	
 	public PlayerListener(PersonalWorlds plugin) {
 
@@ -41,12 +40,12 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void playerListener(PlayerMoveEvent event) {
 		
-		moveChecks++;
-		
-		if (moveChecks != 10)
-			return;
-		
-		moveChecks = 0;
+		/*
+         * Abort if we havn't really moved
+         */
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getBlockY() == event.getTo().getBlockY()) {
+            return;
+         }
 		
 		Player player = event.getPlayer();
 			

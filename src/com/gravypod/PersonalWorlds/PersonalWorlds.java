@@ -27,12 +27,17 @@ public class PersonalWorlds extends JavaPlugin {
 		File config = new File(this.getDataFolder() + System.getProperty("file.separator") + "config.yml");
 		
 		if (!config.exists()) {
+			
 			this.getConfig().options().copyDefaults(true);
+			
 			try {
+				
 				this.getConfig().save(config);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
 		setBorderSize(this.getConfig().getInt("Borders"));
@@ -60,6 +65,7 @@ public class PersonalWorlds extends JavaPlugin {
 		}
 		
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			
 			@Override
 			public void run() {
 				
@@ -67,18 +73,27 @@ public class PersonalWorlds extends JavaPlugin {
 		        log.warning("Ignore the message: 'Plugin {Plugin} does not contain any generators'");
 		        
 		        for (Plugin p : plugins) {
+		        	
 		        	// Collect a list of generators
 		        	if (p.isEnabled() && p.getDefaultWorldGenerator("world", "") != null) {
 		        		generators.add(p.getDescription().getName());
 		        	}
+		        	
 		        }
 		        
+		        String enviromentName;
+		        
 		        for (Environment t : Environment.values()) {
-		        	if (!generators.contains(t.name()))
-		        		generators.add(t.name());
+		        	
+		        	enviromentName = t.name();
+		        	if (!generators.contains(enviromentName)) {
+		        		generators.add(enviromentName);
+		        	}
+		        	
 		        }
 		        
 			}
+			
 		});
 		
 	}
@@ -130,6 +145,7 @@ public class PersonalWorlds extends JavaPlugin {
 	 * @return String of all the generators we know about.
 	 */
 	public String joinedGenList() {
+		
 		String generatorsList = "";
 		
 		for (String gen : generators) {
@@ -141,20 +157,40 @@ public class PersonalWorlds extends JavaPlugin {
 		
 	}
 
+	/**
+	 * Returns a list of arguments we can use.
+	 * 
+	 * @return Classes
+	 * 
+	 */
 	public List<String> getCommands() {
+		
 		return commands;
+		
 	}
 
-	public void setCommands(List<String> commands) {
-		this.commands = commands;
-	}
-
+	/**
+	 * Gets the world border limit size.
+	 * 
+	 * @return int of border size
+	 * 
+	 */
 	public int getBorderSize() {
+		
 		return borderSize;
+		
 	}
 
+	/**
+	 * Set and int for the border size
+	 * 
+	 * @param borderSize (int)
+	 * 
+	 */
 	public void setBorderSize(int borderSize) {
+		
 		this.borderSize = borderSize;
+		
 	}
 
 }
