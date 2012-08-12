@@ -4,16 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import com.gravypod.PersonalWorlds.PersonalWorlds;
-
 public class TeleportUtils {
-
-	private static PersonalWorlds plugin;
 	
-	public static void init(PersonalWorlds _plugin) {
-		
-		plugin = _plugin;
-
+	public TeleportUtils() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -50,7 +44,7 @@ public class TeleportUtils {
 	 */
 	public static void tpToFriend(Player player, String friendsName) {
 		
-		Player friend = plugin.getServer().getPlayer(friendsName);
+		Player friend = PluginUtil.matchName(friendsName);
 		
 		if (friend == null) {
 			player.sendMessage("There is no one online with that name.");

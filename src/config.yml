@@ -1,1 +1,7 @@
 Borders: 200
+
+Permission:
+  Owner:
+    - this.perm
+  Guest:
+    - this.other.perm

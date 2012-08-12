@@ -31,6 +31,7 @@ public class PluginUtil {
 	static PersonalWorlds plugin;
 	static Server server;
 	static int borderSize;
+	private static String fileSeparator = System.getProperty("file.separator");
 	
 	/**
 	 * Initiation of the static class.
@@ -68,6 +69,10 @@ public class PluginUtil {
 			return null;
 		}
 		
+	}
+	
+	public static Player matchName(String name) {
+		return server.getPlayer(name);
 	}
 	
 	/**
@@ -126,13 +131,13 @@ public class PluginUtil {
 	/**
 	 * Finds if a world name is a player owned world.
 	 * 
-	 * @param playerName
+	 * @param worldName
 	 * @return True if this is a player world.
 	 * 
 	 */
-	public static Boolean isPlayerWorld(String playerName) {
+	public static Boolean isPlayerWorld(String worldName) {
 		
-		return playerName.startsWith(plugin.getPluginName() + System.getProperty("file.separator"));
+		return worldName.startsWith(plugin.getPluginName() + System.getProperty("file.separator"));
 		
 	}
 
@@ -481,6 +486,20 @@ public class PluginUtil {
 	    
 	    return classes;
 	    
+	}
+	
+	public static boolean isWorldOwner(String playerName, String worldName) {
+		
+		return PluginUtil.worldName(playerName).equals(worldName);
+		
+	}
+	
+	public static String getFileSeparator() {
+		return fileSeparator;
+	}
+
+	public static void setFileSeparator(String fileSeparator) {
+		PluginUtil.fileSeparator = fileSeparator;
 	}
 	
 }

@@ -3,7 +3,6 @@ package com.gravypod.PersonalWorlds.commands;
 import org.bukkit.entity.Player;
 
 import com.gravypod.PersonalWorlds.CommandHandler;
-import com.gravypod.PersonalWorlds.PersonalWorlds;
 import com.gravypod.PersonalWorlds.utils.TeleportUtils;
 
 /**
@@ -21,11 +20,11 @@ public class Tp {
 	 */
 	public Tp() {
 
-		command((Player) CommandHandler.getSender(), CommandHandler.getArgs(), CommandHandler.getPlugin());
+		command((Player) CommandHandler.getSender(), CommandHandler.getArgs());
 		
 	}
 	
-	private static void command(Player player, String[] args, PersonalWorlds plugin) {
+	private static void command(Player player, String[] args) {
 		
 		if (args.length == 2) {
 			

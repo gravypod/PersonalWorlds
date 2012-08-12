@@ -19,6 +19,7 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.gravypod.PersonalWorlds.PersonalWorlds;
+import com.gravypod.PersonalWorlds.PersonalPerms;
 import com.gravypod.PersonalWorlds.utils.PluginUtil;
 
 /**
@@ -79,7 +80,19 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void playerLogin(PlayerLoginEvent event) {
 
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
+		
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				PersonalPerms.assignPermissions(player);
+				
+			}
+			
+		}, 1);
+		
 		
 		if (!player.getWorld().hasMetadata(plugin.getPluginName())) {
 			plugin.getServer().unloadWorld(PluginUtil.worldName(player.getName()), true);
@@ -103,6 +116,8 @@ public class PlayerListener implements Listener {
 			}
 		});
 		
+		PersonalPerms.removeAttachment(playerName);
+		
 	}
 	
 	
@@ -111,13 +126,17 @@ public class PlayerListener implements Listener {
 		
 		World worldFrom = event.getFrom();
 		
+		Player player = event.getPlayer();
+		
+		PersonalPerms.assignPermissions(player);
+		
 		if (worldFrom.getPlayers().size() <= 1) {
 			if (PluginUtil.isPlayerWorld(worldFrom.getName())) {
-				if (plugin.getServer().unloadWorld(worldFrom, true)) {
-					System.out.println("World Saved");
-				}
+				
+				if (plugin.getServer().unloadWorld(worldFrom, true));
+				
 			}
-		}
+		} 
 		
 	}
 	

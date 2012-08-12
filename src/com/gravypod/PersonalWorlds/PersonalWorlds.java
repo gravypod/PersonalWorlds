@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.World.Environment;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,27 +21,77 @@ public class PersonalWorlds extends JavaPlugin {
 	private List<String> generators = null;
 	private List<String> commands = null;
 	private int borderSize;
+	private FileConfiguration configFile;
+	private List<String> ownerPerms;
+	private List<String> guestPerms;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onEnable() {
 		
 		File config = new File(this.getDataFolder() + System.getProperty("file.separator") + "config.yml");
 		
 		if (!config.exists()) {
+		
+			configFile = this.getConfig();
 			
-			this.getConfig().options().copyDefaults(true);
+			configFile.options().copyDefaults(true);
 			
 			try {
 				
-				this.getConfig().save(config);
+				configFile.save(config);
+				
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
+		} else {
+			try {
+				this.getConfig().load(config);
+				configFile = this.getConfig();
+			} catch (Exception e) {
+				throw new IllegalStateException("The config could not load!", e);
+			} 
 		}
 		
-		setBorderSize(this.getConfig().getInt("Borders"));
+		
+		Object list;
+		
+		list = configFile.getList("Permission.Guest");
+		if (list instanceof List) {
+		
+
+			guestPerms = new ArrayList<String>(((List<String>) configFile.getList("Permission.Guest")));
+			
+		} else if (list instanceof String) {
+			
+			guestPerms = new ArrayList<String>();
+			guestPerms.add((String) list);
+			
+		} else {
+			throw new IllegalStateException("Unknown entry for guest permissions!");
+		}
+		
+		list = configFile.getList("Permission.Owner");
+		if (list instanceof List) {
+			
+
+			ownerPerms = new ArrayList<String>(((List<String>) configFile.getList("Permission.Owner")));
+			
+		} else if (list instanceof String) {
+			
+			ownerPerms = new ArrayList<String>();
+			ownerPerms.add((String) list);
+			
+		} else {
+			throw new IllegalStateException("Unknown entry for owner permissions!");
+		}
+		
+		
+		setBorderSize(configFile.getInt("Borders"));
+		
+		PersonalPerms.initialize(this);
 		
 		generators = new ArrayList<String>();
 		
@@ -191,6 +242,22 @@ public class PersonalWorlds extends JavaPlugin {
 		
 		this.borderSize = borderSize;
 		
+	}
+
+	public List<String> getOwnerPerms() {
+		return ownerPerms;
+	}
+
+	public void setOwnerPerms(List<String> ownerPerms) {
+		this.ownerPerms = ownerPerms;
+	}
+
+	public List<String> getGuestPerms() {
+		return guestPerms;
+	}
+
+	public void setGuestPerms(List<String> guestPerms) {
+		this.guestPerms = guestPerms;
 	}
 
 }
