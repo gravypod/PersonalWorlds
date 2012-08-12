@@ -1,7 +1,11 @@
+# The "Borders:" value defines the border in blocks for the PersonalWorlds from spawn.
+# 
+# The "Permission:" tree contains permissions you can give the Owner/guest of PersonalWorlds.
+
 Borders: 200
 
 Permission:
   Owner:
-    - this.perm
+    - Towny.wild.*
   Guest:
-    - this.other.perm
+    - Towny.wild.switch.*
