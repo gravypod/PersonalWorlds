@@ -44,7 +44,7 @@
     </copy>
   </target>
   <target name ="makejar" description="Create a jar for the PersonalWorlds project">
-  <mkdir dir="/jars/"/>
-  <jar jarfile="/jars/PersoanlWorlds.jar" includes="**" basedir="." />
+  <mkdir dir="jars/"/>
+  <jar jarfile="jars/PersoanlWorlds.jar" includes="**" basedir="." />
   </target>
 </project>
