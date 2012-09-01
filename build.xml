@@ -32,6 +32,8 @@
             <src path="src"/>
             <classpath refid="PersonalWorlds.classpath"/>
         </javac>
+        <mkdir dir="jars/"/>
+        <jar jarfile="jars/PersoanlWorlds.jar" includes="**" basedir="." />
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target name="collect" depends="init">
@@ -42,9 +44,5 @@
       </fileset>
       <flattenmapper/>
     </copy>
-  </target>
-  <target name ="makejar" description="Create a jar for the PersonalWorlds project">
-  <mkdir dir="jars/"/>
-  <jar jarfile="jars/PersoanlWorlds.jar" includes="**" basedir="." />
   </target>
 </project>
