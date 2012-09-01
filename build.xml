@@ -34,7 +34,7 @@
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-      <target name="collect" depends="buildRest">
+    <target name="collect" depends="init">
     <mkdir dir="jars"/>
     <copy todir="jars">
       <fileset dir=".">
