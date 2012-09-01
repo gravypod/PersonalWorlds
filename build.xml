@@ -13,8 +13,8 @@
         <pathelement location="lib/bukkit.jar"/>
     </path>
     <target name="init">
-        <mkdir dir="${build.dir}"/>
-        <copy includeemptydirs="false" todir="${build.dir}">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
             </fileset>
@@ -28,10 +28,19 @@
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dir}" source="${source}" target="${target}">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="PersonalWorlds.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+      <target name="collect" depends="buildRest">
+    <mkdir dir="jars"/>
+    <copy todir="jars">
+      <fileset dir=".">
+        <include name="**/*.jar"/>
+      </fileset>
+      <flattenmapper/>
+    </copy>
+  </target>
 </project>
