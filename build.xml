@@ -43,4 +43,8 @@
       <flattenmapper/>
     </copy>
   </target>
+  <target name ="makejar" description="Create a jar for the AutoTool project">
+  <mkdir dir="/jars/"/>
+    <jar jarfile="/jars/AutoTool.jar" includes="**" basedir="bin" />
+  </target>
 </project>
