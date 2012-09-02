@@ -71,8 +71,7 @@ public class WorldGenerator {
 				
 			}
 			
-			World world = worldCreator.createWorld();
-		
+			final World world = plugin.getServer().createWorld(worldCreator);
 			
 			if (isEnv) {
 				try {
@@ -91,12 +90,13 @@ public class WorldGenerator {
 				world.loadChunk(spawnChunk);
 			}
 			
-			world.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
-		
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-
+				
+				
 				@Override
 				public void run() {
+					
+					world.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
 					
 					Location safeLoc = PluginUtil.safeSpawnLoc(spawnLocation);
 					

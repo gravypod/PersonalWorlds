@@ -18,8 +18,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.metadata.MetadataValue;
 
-import com.gravypod.PersonalWorlds.PersonalWorlds;
 import com.gravypod.PersonalWorlds.PersonalPerms;
+import com.gravypod.PersonalWorlds.PersonalWorlds;
 import com.gravypod.PersonalWorlds.utils.PluginUtil;
 
 /**

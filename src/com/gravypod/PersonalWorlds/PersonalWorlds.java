@@ -41,27 +41,32 @@ public class PersonalWorlds extends JavaPlugin {
 				
 				configFile.save(config);
 				
-				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
 		} else {
+			
 			try {
+				
 				this.getConfig().load(config);
 				configFile = this.getConfig();
+				
 			} catch (Exception e) {
+				
 				throw new IllegalStateException("The config could not load!", e);
+				
 			} 
+			
 		}
 		
 		
 		Object list;
 		
 		list = configFile.getList("Permission.Guest");
-		if (list instanceof List) {
 		
-
+		if (list instanceof List) {
+			
 			guestPerms = new ArrayList<String>(((List<String>) configFile.getList("Permission.Guest")));
 			
 		} else if (list instanceof String) {
@@ -70,13 +75,14 @@ public class PersonalWorlds extends JavaPlugin {
 			guestPerms.add((String) list);
 			
 		} else {
+			
 			throw new IllegalStateException("Unknown entry for guest permissions!");
+			
 		}
 		
 		list = configFile.getList("Permission.Owner");
 		if (list instanceof List) {
 			
-
 			ownerPerms = new ArrayList<String>(((List<String>) configFile.getList("Permission.Owner")));
 			
 		} else if (list instanceof String) {
@@ -137,6 +143,7 @@ public class PersonalWorlds extends JavaPlugin {
 		        for (Environment t : Environment.values()) {
 		        	
 		        	enviromentName = t.name();
+		        	
 		        	if (!generators.contains(enviromentName)) {
 		        		generators.add(enviromentName);
 		        	}

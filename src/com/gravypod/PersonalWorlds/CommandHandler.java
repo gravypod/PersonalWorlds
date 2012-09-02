@@ -33,7 +33,6 @@ public class CommandHandler implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String cmd, String[] args) {
-		
 		Player player = null;
 		
 		if (sender instanceof Player) {
@@ -50,8 +49,11 @@ public class CommandHandler implements CommandExecutor {
 		}
 		
 		String argument = WordUtils.capitalize(args[0].toLowerCase());
+		final String className = "com.gravypod.PersonalWorlds.commands." + argument;
 		
-		if (plugin.getCommands().contains("com.gravypod.PersonalWorlds.commands." + argument + ".class")) {
+		
+
+		if (plugin.getCommands().contains(className + ".class")) {
 			
 			try {
 				
@@ -61,7 +63,22 @@ public class CommandHandler implements CommandExecutor {
 				CommandHandler.cmd = cmd;
 				CommandHandler.args = args;
 				
-				Class.forName("com.gravypod.PersonalWorlds.commands." + argument).newInstance();
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+					@Override
+					public void run() {
+						
+						try {
+							
+							Class.forName(className).newInstance();
+							
+						} catch (Exception e) {
+						}
+						
+					}
+					
+				}, 1);
+				
 				return true;
 				
 			} catch (Exception e) {
