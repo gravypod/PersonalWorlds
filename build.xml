@@ -33,7 +33,7 @@
             <classpath refid="PersonalWorlds.classpath"/>
         </javac>
         <mkdir dir="jars/"/>
-        <jar jarfile="jars/PersoanlWorlds.jar" includes="**" basedir="bin" />
+        <jar jarfile="jars/PersonalWorlds.jar" includes="**" basedir="bin" />
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target name="collect" depends="init">
