@@ -6,33 +6,30 @@ import org.bukkit.entity.Player;
 
 public class TeleportUtils {
 	
-	public TeleportUtils() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	/**
 	 * Sends a player into his world.
 	 * 
-	 * @param player who wants to go to his world
+	 * @param player
+	 *            who wants to go to his world
 	 * 
 	 */
-	public static void tpToMy(Player player) {
+	public static void tpToMy(final Player player) {
+	
+		final String playerName = player.getName();
 		
-		String playerName = player.getName();
-		
-		World world;
+		final World world;
 		
 		if ((world = PluginUtil.loadWorld(playerName)) == null) {
 			player.sendMessage("You do not have a world!");
 			return;
 		}
-			
-		Location spawnLocation = world.getSpawnLocation();
-			
+		
+		final Location spawnLocation = world.getSpawnLocation();
+		
 		world.loadChunk(spawnLocation.getChunk());
 		
 		player.teleport(PluginUtil.safeSpawnLoc(spawnLocation));
-			
+		
 	}
 	
 	/**
@@ -42,16 +39,16 @@ public class TeleportUtils {
 	 * @param friendsName
 	 * 
 	 */
-	public static void tpToFriend(Player player, String friendsName) {
-		
-		Player friend = PluginUtil.matchName(friendsName);
+	public static void tpToFriend(final Player player, final String friendsName) {
+	
+		final Player friend = PluginUtil.matchName(friendsName);
 		
 		if (friend == null) {
 			player.sendMessage("There is no one online with that name.");
 			return;
 		}
 		
-		World world;
+		final World world;
 		
 		if ((world = PluginUtil.loadWorld(friendsName)) == null) {
 			player.sendMessage("You do not have a world!");
@@ -62,13 +59,12 @@ public class TeleportUtils {
 			friend.sendMessage(player.getName() + " has teleported to your world!");
 		}
 		
-		Location spawnLocation = world.getSpawnLocation();
+		final Location spawnLocation = world.getSpawnLocation();
 		
 		world.getChunkAt(spawnLocation).load();
 		
 		player.teleport(PluginUtil.safeSpawnLoc(spawnLocation));
 		
 	}
-	
 	
 }

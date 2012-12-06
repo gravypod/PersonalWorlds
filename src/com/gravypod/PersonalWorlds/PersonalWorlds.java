@@ -11,29 +11,35 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.gravypod.PersonalWorlds.CommandHandlers.CommandHandler;
 import com.gravypod.PersonalWorlds.Listener.PlayerListener;
 import com.gravypod.PersonalWorlds.utils.PluginUtil;
 
 public class PersonalWorlds extends JavaPlugin {
-
+	
 	Logger log = Logger.getLogger("Minecraft");
 	
 	private List<String> generators = null;
+	
 	private List<String> commands = null;
+	
 	private int borderSize;
+	
 	private FileConfiguration configFile;
+	
 	private List<String> ownerPerms;
+	
 	private List<String> guestPerms;
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onEnable() {
-		
-		File config = new File(this.getDataFolder() + System.getProperty("file.separator") + "config.yml");
+	
+		final File config = new File(getDataFolder() + System.getProperty("file.separator") + "config.yml");
 		
 		if (!config.exists()) {
-		
-			configFile = this.getConfig();
+			
+			configFile = getConfig();
 			
 			configFile.options().copyDefaults(true);
 			
@@ -41,7 +47,7 @@ public class PersonalWorlds extends JavaPlugin {
 				
 				configFile.save(config);
 				
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 			
@@ -49,17 +55,16 @@ public class PersonalWorlds extends JavaPlugin {
 			
 			try {
 				
-				this.getConfig().load(config);
-				configFile = this.getConfig();
+				getConfig().load(config);
+				configFile = getConfig();
 				
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				
 				throw new IllegalStateException("The config could not load!", e);
 				
-			} 
+			}
 			
 		}
-		
 		
 		Object list;
 		
@@ -67,7 +72,7 @@ public class PersonalWorlds extends JavaPlugin {
 		
 		if (list instanceof List) {
 			
-			guestPerms = new ArrayList<String>(((List<String>) configFile.getList("Permission.Guest")));
+			guestPerms = new ArrayList<String>((List<String>) configFile.getList("Permission.Guest"));
 			
 		} else if (list instanceof String) {
 			
@@ -83,7 +88,7 @@ public class PersonalWorlds extends JavaPlugin {
 		list = configFile.getList("Permission.Owner");
 		if (list instanceof List) {
 			
-			ownerPerms = new ArrayList<String>(((List<String>) configFile.getList("Permission.Owner")));
+			ownerPerms = new ArrayList<String>((List<String>) configFile.getList("Permission.Owner"));
 			
 		} else if (list instanceof String) {
 			
@@ -94,14 +99,13 @@ public class PersonalWorlds extends JavaPlugin {
 			throw new IllegalStateException("Unknown entry for owner permissions!");
 		}
 		
-		
 		setBorderSize(configFile.getInt("Borders"));
 		
 		PersonalPerms.initialize(this);
 		
 		generators = new ArrayList<String>();
 		
-		commands = ListClasses.getClasseNamesInPackage(this.getFile().getAbsolutePath(), "com.gravypod.PersonalWorlds.commands.");
+		commands = ListClasses.getClasseNamesInPackage(getFile().getAbsolutePath(), "com.gravypod.PersonalWorlds.commands.");
 		
 		log.info("Enabling PersonalWorlds. Made by Gravypod");
 		
@@ -109,7 +113,7 @@ public class PersonalWorlds extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 		PluginUtil.init(this);
 		
-		File worldsFolder = new File(getPluginName());
+		final File worldsFolder = new File(getPluginName());
 		
 		if (!worldsFolder.exists()) {
 			
@@ -125,31 +129,31 @@ public class PersonalWorlds extends JavaPlugin {
 			
 			@Override
 			public void run() {
+			
+				final Plugin[] plugins = getServer().getPluginManager().getPlugins();
+				log.warning("Ignore the message: 'Plugin {Plugin} does not contain any generators'");
 				
-		        Plugin[] plugins = getServer().getPluginManager().getPlugins();
-		        log.warning("Ignore the message: 'Plugin {Plugin} does not contain any generators'");
-		        
-		        for (Plugin p : plugins) {
-		        	
-		        	// Collect a list of generators
-		        	if (p.isEnabled() && p.getDefaultWorldGenerator("world", "") != null) {
-		        		generators.add(p.getDescription().getName());
-		        	}
-		        	
-		        }
-		        
-		        String enviromentName;
-		        
-		        for (Environment t : Environment.values()) {
-		        	
-		        	enviromentName = t.name();
-		        	
-		        	if (!generators.contains(enviromentName)) {
-		        		generators.add(enviromentName);
-		        	}
-		        	
-		        }
-		        
+				for (final Plugin p : plugins) {
+					
+					// Collect a list of generators
+					if (p.isEnabled() && p.getDefaultWorldGenerator("world", "") != null) {
+						generators.add(p.getDescription().getName());
+					}
+					
+				}
+				
+				String enviromentName;
+				
+				for (final Environment t : Environment.values()) {
+					
+					enviromentName = t.name();
+					
+					if (!generators.contains(enviromentName)) {
+						generators.add(enviromentName);
+					}
+					
+				}
+				
 			}
 			
 		});
@@ -158,7 +162,7 @@ public class PersonalWorlds extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		
+	
 		generators = null;
 		commands = null;
 		
@@ -172,8 +176,8 @@ public class PersonalWorlds extends JavaPlugin {
 	 * @return String of the plugin's name
 	 */
 	public String getPluginName() {
-		
-		return this.getName();
+	
+		return getName();
 		
 	}
 	
@@ -184,12 +188,13 @@ public class PersonalWorlds extends JavaPlugin {
 	 * @return String of a world generators name.
 	 * 
 	 */
-	public String getGenerator(String name) {
-		
-		for (String genName : generators) {
+	public String getGenerator(final String name) {
+	
+		for (final String genName : generators) {
 			
-			if (genName.equalsIgnoreCase(name))
+			if (genName.equalsIgnoreCase(name)) {
 				return genName;
+			}
 			
 		}
 		
@@ -203,18 +208,17 @@ public class PersonalWorlds extends JavaPlugin {
 	 * @return String of all the generators we know about.
 	 */
 	public String joinedGenList() {
-		
+	
 		String generatorsList = "";
 		
-		for (String gen : generators) {
+		for (final String gen : generators) {
 			generatorsList += gen.toLowerCase() + ", ";
 		}
 		
-		
-		return (generatorsList.length() >= 1) ? generatorsList.substring(0, generatorsList.length() - 2) : "";
+		return generatorsList.length() >= 1 ? generatorsList.substring(0, generatorsList.length() - 2) : "";
 		
 	}
-
+	
 	/**
 	 * Returns a list of arguments we can use.
 	 * 
@@ -222,11 +226,11 @@ public class PersonalWorlds extends JavaPlugin {
 	 * 
 	 */
 	public List<String> getCommands() {
-		
+	
 		return commands;
 		
 	}
-
+	
 	/**
 	 * Gets the world border limit size.
 	 * 
@@ -234,37 +238,42 @@ public class PersonalWorlds extends JavaPlugin {
 	 * 
 	 */
 	public int getBorderSize() {
-		
+	
 		return borderSize;
 		
 	}
-
+	
 	/**
 	 * Set and int for the border size
 	 * 
-	 * @param borderSize (int)
+	 * @param borderSize
+	 *            (int)
 	 * 
 	 */
-	public void setBorderSize(int borderSize) {
-		
+	public void setBorderSize(final int borderSize) {
+	
 		this.borderSize = borderSize;
 		
 	}
-
+	
 	public List<String> getOwnerPerms() {
+	
 		return ownerPerms;
 	}
-
-	public void setOwnerPerms(List<String> ownerPerms) {
+	
+	public void setOwnerPerms(final List<String> ownerPerms) {
+	
 		this.ownerPerms = ownerPerms;
 	}
-
+	
 	public List<String> getGuestPerms() {
+	
 		return guestPerms;
 	}
-
-	public void setGuestPerms(List<String> guestPerms) {
+	
+	public void setGuestPerms(final List<String> guestPerms) {
+	
 		this.guestPerms = guestPerms;
 	}
-
+	
 }

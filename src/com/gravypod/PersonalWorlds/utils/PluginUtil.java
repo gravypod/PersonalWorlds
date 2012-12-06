@@ -22,15 +22,20 @@ import com.gravypod.PersonalWorlds.PersonalWorlds;
 
 /**
  * 
- * From src in <a href='http://palmergames.com/downloads/antix/AntiX.jar'>AntiX</a>
+ * From src in <a
+ * href='http://palmergames.com/downloads/antix/AntiX.jar'>AntiX</a>
+ * 
  * @author <a href='https://github.com/ElgarL'>ElgarL</a>
- *
+ * 
  */
 public class PluginUtil {
-
+	
 	static PersonalWorlds plugin;
+	
 	static Server server;
+	
 	static int borderSize;
+	
 	private static String fileSeparator = System.getProperty("file.separator");
 	
 	/**
@@ -39,11 +44,11 @@ public class PluginUtil {
 	 * @param init
 	 * 
 	 */
-	public static void init(PersonalWorlds init) {
-		
-		plugin = init;
-		server = plugin.getServer();
-		borderSize = plugin.getBorderSize();
+	public static void init(final PersonalWorlds init) {
+	
+		PluginUtil.plugin = init;
+		PluginUtil.server = PluginUtil.plugin.getServer();
+		PluginUtil.borderSize = PluginUtil.plugin.getBorderSize();
 		
 	}
 	
@@ -54,39 +59,42 @@ public class PluginUtil {
 	 * @return String of the Players name online or off-line
 	 * 
 	 */
-	public static String matchPlayer(String name) {
-
-		List<Player> players = server.matchPlayer(name);
-
-		switch (players.size()) {
+	public static String matchPlayer(final String name) {
+	
+		final List<Player> players = PluginUtil.server.matchPlayer(name);
 		
-		case 0:
-			return matchOfflinePlayer(name);
-		case 1:
-			return ((Player) players.get(0)).getName();
-			
-		default:
-			return null;
+		switch(players.size()) {
+		
+			case 0:
+				return PluginUtil.matchOfflinePlayer(name);
+			case 1:
+				return players.get(0).getName();
+				
+			default:
+				return null;
 		}
 		
 	}
 	
-	public static Player matchName(String name) {
-		return server.getPlayer(name);
+	public static Player matchName(final String name) {
+	
+		return PluginUtil.server.getPlayer(name);
 	}
 	
 	/**
-	 * Matches an String to an off-line player 
+	 * Matches an String to an off-line player
 	 * 
 	 * @param name
 	 * @return player name or null if there is no player
 	 * 
 	 */
-	public static String matchOfflinePlayer(String name) {
-		
-		for (OfflinePlayer player : server.getOfflinePlayers())
-			if (player.getName().equals(name))
+	public static String matchOfflinePlayer(final String name) {
+	
+		for (final OfflinePlayer player : PluginUtil.server.getOfflinePlayers()) {
+			if (player.getName().equals(name)) {
 				return player.getName();
+			}
+		}
 		
 		return null;
 	}
@@ -94,13 +102,15 @@ public class PluginUtil {
 	/**
 	 * Get the chunk the player is in.
 	 * 
-	 * @param name must match a player, no error checking. Use {@code=matchPlayer}
+	 * @param name
+	 *            must match a player, no error checking. Use
+	 *            {@code=matchPlayer}
 	 * @return Chunk
 	 * 
 	 */
-	public static Chunk getPlayerChunk(String name) {
-		
-		return server.getPlayer(name).getLocation().getChunk();
+	public static Chunk getPlayerChunk(final String name) {
+	
+		return PluginUtil.server.getPlayer(name).getLocation().getChunk();
 		
 	}
 	
@@ -111,8 +121,8 @@ public class PluginUtil {
 	 * 
 	 */
 	public static Player[] getOnlinePlayers() {
-
-		return server.getOnlinePlayers();
+	
+		return PluginUtil.server.getOnlinePlayers();
 	}
 	
 	/**
@@ -122,9 +132,9 @@ public class PluginUtil {
 	 * @return String containing personal world path and name
 	 * 
 	 */
-	public static String worldName(String name) {
-		
-		return plugin.getPluginName() + System.getProperty("file.separator") + name;
+	public static String worldName(final String name) {
+	
+		return PluginUtil.plugin.getPluginName() + System.getProperty("file.separator") + name;
 		
 	}
 	
@@ -135,12 +145,12 @@ public class PluginUtil {
 	 * @return True if this is a player world.
 	 * 
 	 */
-	public static Boolean isPlayerWorld(String worldName) {
-		
-		return worldName.startsWith(plugin.getPluginName() + System.getProperty("file.separator"));
+	public static Boolean isPlayerWorld(final String worldName) {
+	
+		return worldName.startsWith(PluginUtil.plugin.getPluginName() + System.getProperty("file.separator"));
 		
 	}
-
+	
 	/**
 	 * Makes a safe spawn location.
 	 * 
@@ -148,20 +158,20 @@ public class PluginUtil {
 	 * @return Modified location so you are not buried.
 	 * 
 	 */
-	public static Location safeSpawnLoc(Location spawnLocation) {
+	public static Location safeSpawnLoc(final Location spawnLocation) {
 		
-		Location blockLocation = spawnLocation;
-		double yLoc = blockLocation.getY();
-		
-		//find the first non air block below us
-		while (blockLocation.getBlock().getType() != Material.AIR) {
-		    blockLocation.setY(yLoc + 1);
+		if (spawnLocation.getBlock().getType() == Material.AIR) {
+			
+			spawnLocation.setY(spawnLocation.getWorld().getMaxHeight());
+			
+			while (spawnLocation.getBlock().getType() != Material.AIR) {
+				
+				spawnLocation.setY(spawnLocation.getY() - 1);
+			}
+			
 		}
 		
-		// set to 1 block up so we are not sunk in the ground
-		blockLocation.setY(yLoc + 1);
-		
-		return blockLocation;
+		return spawnLocation;
 		
 	}
 	
@@ -172,9 +182,9 @@ public class PluginUtil {
 	 * @return True if they own a world
 	 * 
 	 */
-	public static boolean hasWorld(String playerName) {
-		
-		File worldFile = new File(worldName(playerName));
+	public static boolean hasWorld(final String playerName) {
+	
+		final File worldFile = new File(PluginUtil.worldName(playerName));
 		
 		if (worldFile.exists()) {
 			if (worldFile.isDirectory()) {
@@ -193,10 +203,10 @@ public class PluginUtil {
 	 * @return True if the world is loaded
 	 * 
 	 */
-	public static boolean isWorldLoaded(String playerName) {
+	public static boolean isWorldLoaded(final String playerName) {
+	
+		return PluginUtil.plugin.getServer().getWorld(PluginUtil.worldName(playerName)) != null;
 		
-		return plugin.getServer().getWorld(worldName(playerName)) != null;
-
 	}
 	
 	/**
@@ -206,41 +216,42 @@ public class PluginUtil {
 	 * @return World object that has been loaded
 	 * 
 	 */
-	public static World loadWorld(String playerName) {
-		
+	public static World loadWorld(final String playerName) {
+	
 		if (PluginUtil.hasWorld(playerName)) {
 			
 			World world;
 			
-			String worldName = PluginUtil.worldName(playerName);
+			final String worldName = PluginUtil.worldName(playerName);
 			
 			if (PluginUtil.isWorldLoaded(worldName)) {
 				
-				world = plugin.getServer().getWorld(worldName);
+				world = PluginUtil.plugin.getServer().getWorld(worldName);
 				
 			} else {
 				
 				Environment worldEnv = null;
-				for (Environment env : Environment.values()) {
-					//new File(worldName + System.getProperty("file.separator") + "is" + genName)
-					File checkFile = new File(worldName + System.getProperty("file.separator") + "is" + env.name());
+				for (final Environment env : Environment.values()) {
+					// new File(worldName + System.getProperty("file.separator")
+					// + "is" + genName)
+					final File checkFile = new File(worldName + System.getProperty("file.separator") + "is" + env.name());
 					if (checkFile.exists()) {
 						worldEnv = env;
-						//continue;
+						// continue;
 					}
 				}
-
-				WorldCreator worldCreator = new WorldCreator(worldName);
+				
+				final WorldCreator worldCreator = new WorldCreator(worldName);
 				
 				if (worldEnv != null) {
 					worldCreator.environment(worldEnv);
 				}
 				
-				world = plugin.getServer().createWorld(worldCreator);
+				world = PluginUtil.plugin.getServer().createWorld(worldCreator);
 				
-				world.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
+				world.setMetadata(PluginUtil.plugin.getPluginName(), new FixedMetadataValue(PluginUtil.plugin, true));
 				
-			} 
+			}
 			
 			world.setKeepSpawnInMemory(false);
 			return world;
@@ -258,30 +269,30 @@ public class PluginUtil {
 	 * @return True if they are out of bounds
 	 * 
 	 */
-	public static boolean borderTest(Location destination) {
+	public static boolean borderTest(final Location destination) {
+	
+		final int x = destination.getBlockX();
+		final int z = destination.getBlockZ();
 		
-		int x = destination.getBlockX();
-		int z = destination.getBlockZ();
+		final Location spawnLoc = destination.getWorld().getSpawnLocation();
 		
-		Location spawnLoc = destination.getWorld().getSpawnLocation();
-		
-		int x1 = spawnLoc.getBlockX();
-		int z1 = spawnLoc.getBlockZ();
+		final int x1 = spawnLoc.getBlockX();
+		final int z1 = spawnLoc.getBlockZ();
 		
 		boolean hasChanged = false;
 		
-		if (x >= x1 + borderSize) {
+		if (x >= x1 + PluginUtil.borderSize) {
 			destination.setX(x - 5);
 			hasChanged = true;
-		} else if (x <= x1 - borderSize) {
+		} else if (x <= x1 - PluginUtil.borderSize) {
 			destination.setX(x + 5);
 			hasChanged = true;
 		}
-			
-		if (z >= z1 + borderSize) {
+		
+		if (z >= z1 + PluginUtil.borderSize) {
 			destination.setZ(z - 5);
 			hasChanged = true;
-		} else if (z <= z1 - borderSize) {
+		} else if (z <= z1 - PluginUtil.borderSize) {
 			destination.setZ(z + 5);
 			hasChanged = true;
 		}
@@ -291,22 +302,21 @@ public class PluginUtil {
 	}
 	
 	/**
-	 * Delete a world that is matched to a player name.
-	 * This delayed one tick after the world is unloaded to fully delete.
+	 * Delete a world that is matched to a player name. This delayed one tick
+	 * after the world is unloaded to fully delete.
 	 * 
 	 * @param player
 	 * 
 	 */
-	public static void deleteWorld(String player) {
-		
-		String playerName = matchPlayer(player);
-		
+	public static void deleteWorld(final String player) {
+	
+		final String playerName = PluginUtil.matchPlayer(player);
 		
 		if (PluginUtil.hasWorld(playerName)) {
-		
-			final String worldName = worldName(playerName);
-					
-			World world = plugin.getServer().getWorld(worldName);
+			
+			final String worldName = PluginUtil.worldName(playerName);
+			
+			final World world = PluginUtil.plugin.getServer().getWorld(worldName);
 			
 			if (world == null) {
 				
@@ -315,16 +325,16 @@ public class PluginUtil {
 			
 			PluginUtil.kickPlayersOut(playerName, true, "This world is going to be deleted! You have been kicked!");
 			
-			plugin.getServer().unloadWorld(worldName, false);
+			PluginUtil.plugin.getServer().unloadWorld(worldName, false);
 			
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			PluginUtil.plugin.getServer().getScheduler().scheduleSyncDelayedTask(PluginUtil.plugin, new Runnable() {
 				
 				@Override
 				public void run() {
+				
+					final File worldFile = new File(worldName);
 					
-					File worldFile = new File(worldName);
-					
-					deleteFile(worldFile);
+					PluginUtil.deleteFile(worldFile);
 					
 				}
 				
@@ -335,16 +345,20 @@ public class PluginUtil {
 	}
 	
 	/**
-	 * Kicks all the players to the main world spawn. 
+	 * Kicks all the players to the main world spawn.
 	 * 
 	 * @param worldOwner
-	 * @param kickall is for if you want to kick everyone, event the owner, out of the world.
-	 * @param kickMessage is the message players that are kicked are send after the kick.
+	 * @param kickall
+	 *            is for if you want to kick everyone, event the owner, out of
+	 *            the world.
+	 * @param kickMessage
+	 *            is the message players that are kicked are send after the
+	 *            kick.
 	 * 
 	 */
-	public static void kickPlayersOut(String worldOwner, boolean kickall, String kickMessage) {
-		
-		World world = plugin.getServer().getWorld(PluginUtil.worldName(worldOwner));
+	public static void kickPlayersOut(final String worldOwner, final boolean kickall, final String kickMessage) {
+	
+		final World world = PluginUtil.plugin.getServer().getWorld(PluginUtil.worldName(worldOwner));
 		
 		if (world == null) {
 			
@@ -352,9 +366,9 @@ public class PluginUtil {
 			
 		}
 		
-		Location mainWorldSpawn = plugin.getServer().getWorlds().get(0).getSpawnLocation();
+		final Location mainWorldSpawn = PluginUtil.plugin.getServer().getWorlds().get(0).getSpawnLocation();
 		
-		for (Player player : world.getPlayers()) {
+		for (final Player player : world.getPlayers()) {
 			
 			if (!player.getName().equals(worldOwner) || kickall) {
 				
@@ -368,14 +382,14 @@ public class PluginUtil {
 	}
 	
 	/**
-	 * Delete file, or if path represents a directory, recursively
-	 * delete it's contents beforehand.
+	 * Delete file, or if path represents a directory, recursively delete it's
+	 * contents beforehand.
 	 * 
 	 * @param file
 	 * 
 	 */
-	public static void deleteFile(File file) {
-		
+	public static void deleteFile(final File file) {
+	
 		synchronized(file) {
 			
 			if (file.isDirectory()) {
@@ -384,8 +398,9 @@ public class PluginUtil {
 				
 				if (children != null) {
 					
-					for (File child : children)
-						deleteFile(child);
+					for (final File child : children) {
+						PluginUtil.deleteFile(child);
+					}
 					
 				}
 				
@@ -393,15 +408,17 @@ public class PluginUtil {
 				
 				if (children == null || children.length == 0) {
 					
-					if (!file.delete())
+					if (!file.delete()) {
 						System.out.println("Error: Could not delete folder: " + file.getPath());
+					}
 					
 				}
 				
 			} else if (file.isFile()) {
 				
-				if (!file.delete())
+				if (!file.delete()) {
 					System.out.println("Error: Could not delete file: " + file.getPath());
+				}
 				
 			}
 			
@@ -410,95 +427,102 @@ public class PluginUtil {
 	}
 	
 	/**
-	 * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
-	 *
-	 * @param packageName The base package
+	 * Scans all classes accessible from the context class loader which belong
+	 * to the given package and subpackages.
+	 * 
+	 * @param packageName
+	 *            The base package
 	 * @return The classes
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 * 
 	 */
-	public static Class<?>[] getClasses(String packageName) throws ClassNotFoundException, IOException {
+	public static Class<?>[] getClasses(final String packageName) throws ClassNotFoundException, IOException {
+	
+		final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		
-	    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-	    
-	    assert classLoader != null;
-	    
-	    String path = packageName.replace('.', '/');
-	    
-	    Enumeration<URL> resources = classLoader.getResources(path);
-	    
-	    List<File> dirs = new ArrayList<File>();
-	    
-	    while (resources.hasMoreElements()) {
-	    	
-	        URL resource = resources.nextElement();
-	        dirs.add(new File(resource.getFile()));
-	        
-	    }
-	    
-	    ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-	    
-	    for (File directory : dirs) {
-	    	
-	        classes.addAll(findClasses(directory, packageName));
-	        
-	    }
-	    
-	    return classes.toArray(new Class[classes.size()]);
-	    
+		assert classLoader != null;
+		
+		final String path = packageName.replace('.', '/');
+		
+		final Enumeration<URL> resources = classLoader.getResources(path);
+		
+		final List<File> dirs = new ArrayList<File>();
+		
+		while(resources.hasMoreElements()) {
+			
+			final URL resource = resources.nextElement();
+			dirs.add(new File(resource.getFile()));
+			
+		}
+		
+		final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+		
+		for (final File directory : dirs) {
+			
+			classes.addAll(PluginUtil.findClasses(directory, packageName));
+			
+		}
+		
+		return classes.toArray(new Class[classes.size()]);
+		
 	}
 	
 	/**
-	 * Recursive method used to find all classes in a given directory and subdirs.
-	 *
-	 * @param directory   The base directory
-	 * @param packageName The package name for classes found inside the base directory
+	 * Recursive method used to find all classes in a given directory and
+	 * subdirs.
+	 * 
+	 * @param directory
+	 *            The base directory
+	 * @param packageName
+	 *            The package name for classes found inside the base directory
 	 * @return The classes
 	 * @throws ClassNotFoundException
 	 */
-	private static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
+	private static List<Class<?>> findClasses(final File directory, final String packageName) throws ClassNotFoundException {
+	
+		final List<Class<?>> classes = new ArrayList<Class<?>>();
 		
-	    List<Class<?>> classes = new ArrayList<Class<?>>();
-	    
-	    if (!directory.exists()) {
-	    	
-	        return classes;
-	        
-	    }
-	    
-	    File[] files = directory.listFiles();
-	    
-	    for (File file : files) {
-	    	
-	        if (file.isDirectory()) {
-	        	
-	            assert !file.getName().contains(".");
-	            classes.addAll(findClasses(file, packageName + "." + file.getName()));
-	            
-	        } else if (file.getName().endsWith(".class")) {
-	        	
-	            classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
-
-	        }
-	        
-	    }
-	    
-	    return classes;
-	    
+		if (!directory.exists()) {
+			
+			return classes;
+			
+		}
+		
+		final File[] files = directory.listFiles();
+		
+		for (final File file : files) {
+			
+			if (file.isDirectory()) {
+				
+				assert !file.getName().contains(".");
+				classes.addAll(PluginUtil.findClasses(file, packageName + "." + file.getName()));
+				
+			} else if (file.getName().endsWith(".class")) {
+				
+				classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
+				
+			}
+			
+		}
+		
+		return classes;
+		
 	}
 	
-	public static boolean isWorldOwner(String playerName, String worldName) {
-		
+	public static boolean isWorldOwner(final String playerName, final String worldName) {
+	
 		return PluginUtil.worldName(playerName).equals(worldName);
 		
 	}
 	
 	public static String getFileSeparator() {
-		return fileSeparator;
+	
+		return PluginUtil.fileSeparator;
 	}
-
-	public static void setFileSeparator(String fileSeparator) {
+	
+	public static void setFileSeparator(final String fileSeparator) {
+	
 		PluginUtil.fileSeparator = fileSeparator;
 	}
 	
