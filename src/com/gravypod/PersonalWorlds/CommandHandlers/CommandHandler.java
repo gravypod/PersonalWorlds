@@ -39,8 +39,13 @@ public class CommandHandler implements CommandExecutor {
 		
 		// This is a permissions check to see if the player has permissions for
 		// that argument
-		if (!player.hasPermission(CommandHandler.plugin.getPluginName() + "." + args[0])) {
-			player.sendMessage("You do not have permissions for that command!");
+		if (args.length >= 1) {
+			if (!player.hasPermission(CommandHandler.plugin.getPluginName() + "." + args[0])) {
+				player.sendMessage("You do not have permissions for that command!");
+				return true;
+			}
+		} else {
+			new Help().command(player, args, CommandHandler.plugin);
 			return true;
 		}
 		
