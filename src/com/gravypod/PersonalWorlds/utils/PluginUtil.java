@@ -159,12 +159,12 @@ public class PluginUtil {
 	 * 
 	 */
 	public static Location safeSpawnLoc(final Location spawnLocation) {
-		
+	
 		if (spawnLocation.getBlock().getType() == Material.AIR) {
 			
 			spawnLocation.setY(spawnLocation.getWorld().getMaxHeight());
 			
-			while (spawnLocation.getBlock().getType() != Material.AIR) {
+			while(spawnLocation.getBlock().getType() != Material.AIR) {
 				
 				spawnLocation.setY(spawnLocation.getY() - 1);
 			}

@@ -67,4 +67,31 @@ public class TeleportUtils {
 		
 	}
 	
+	/**
+	 * 
+	 * Teleport to a users world and override the need for them to be online.
+	 * 
+	 * @param player
+	 *            - Player using command
+	 * @param worldName
+	 *            - world
+	 * 
+	 */
+	public static void tpOverride(final Player player, final String worldName) {
+	
+		final World world;
+		
+		if ((world = PluginUtil.loadWorld(worldName)) == null) {
+			player.sendMessage("That is not a real world!");
+			return;
+		}
+		
+		final Location spawnLocation = world.getSpawnLocation();
+		
+		world.getChunkAt(spawnLocation).load();
+		
+		player.teleport(PluginUtil.safeSpawnLoc(spawnLocation));
+		
+	}
+	
 }

@@ -31,8 +31,10 @@ public class Add implements ICommand {
 			new WorldGenerator(plugin, player, args[1]);
 			
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+				
 				@Override
 				public void run() {
+				
 					player.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
 				}
 			});

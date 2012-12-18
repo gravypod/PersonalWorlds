@@ -19,6 +19,14 @@ public class Tp implements ICommand {
 	
 		if (args.length == 2) {
 			
+			if (player.hasPermission("personalworlds.tp.override")) {
+				
+				TeleportUtils.tpOverride(player, args[1]);
+				
+				return;
+				
+			}
+			
 			TeleportUtils.tpToFriend(player, args[1]);
 			
 		} else {
