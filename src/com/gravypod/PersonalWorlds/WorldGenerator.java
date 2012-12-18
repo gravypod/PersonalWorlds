@@ -99,7 +99,7 @@ public class WorldGenerator {
 				@Override
 				public void run() {
 					
-					player.sendMessage("You are getting teleported to your world!");
+					player.sendMessage("You are teleported to your world!");
 				
 					world.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
 					
