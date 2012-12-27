@@ -172,8 +172,12 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void entityMoveEvent(final VehicleMoveEvent event) {
-	
+		
 		final Vehicle v = event.getVehicle();
+		
+		if (!PluginUtil.isPlayerWorld(v.getWorld().getName())) {
+			return;
+		}
 		
 		if (v instanceof Vehicle) {
 			

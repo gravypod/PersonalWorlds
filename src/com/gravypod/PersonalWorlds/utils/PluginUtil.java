@@ -164,10 +164,12 @@ public class PluginUtil {
 			
 			spawnLocation.setY(spawnLocation.getWorld().getMaxHeight());
 			
-			while(spawnLocation.getBlock().getType() != Material.AIR) {
-				
-				spawnLocation.setY(spawnLocation.getY() - 1);
-			}
+			World world = spawnLocation.getWorld();
+			
+			
+			return world.getHighestBlockAt(spawnLocation).getLocation();
+			
+			
 			
 		}
 		
