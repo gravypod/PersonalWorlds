@@ -16,7 +16,7 @@ public class Generator implements ICommand {
 	@Override
 	public void command(final Player player, final String[] args, final PersonalWorlds plugin) {
 	
-		player.sendMessage("The generators you can use are: " + plugin.joinedGenList());
+		player.sendMessage(plugin.getMessage("generatorsList").replace("{GENERATORS}", plugin.joinedGenList()));
 		
 	}
 	

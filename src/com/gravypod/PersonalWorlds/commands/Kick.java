@@ -19,34 +19,33 @@ public class Kick implements ICommand {
 		}
 		
 		if (!Permissions.KICK.canUse(player)) {
-			player.sendMessage("You do not have permission.");
+			player.sendMessage(plugin.getMessage("noPermissions"));
 			return;
 		}
 		
 		if (args.length != 2) {
-			player.sendMessage("You used the wrong number of arguments!");
-			player.sendMessage("Usage: /pw kick (player name)");
+			player.sendMessage(plugin.getMessage("wrongArguments"));
 			return;
 		}
 		
 		final Player inWorld = PluginUtil.matchOnlinePlayer(args[1]);
 		
 		if (inWorld == null || !inWorld.isOnline()) {
-			player.sendMessage("That player is not online.");
+			player.sendMessage(plugin.getMessage("playerNotOnline"));
 			return;
 		}
 		
 		if (!PluginUtil.isWorldOwner(player.getName(), inWorld.getWorld().getName())) {
-			player.sendMessage("You do not own the world that " + player.getName() + " is in!");
+			player.sendMessage(plugin.getMessage("dontOwnWorldPlayerIn").replace("{PLAYER}", inWorld.getName()));
 			return;
 		}
 		
 		if (Permissions.OVERRIDE.canUse(inWorld)) {
-			player.sendMessage("That player has the PersonalWorld override permission, you cannot kick him from your world.");
+			player.sendMessage(plugin.getMessage("playerCanOverride"));
 			return;
 		}
 		
-		inWorld.sendMessage(player.getName() + " has kicked you from their world.");
+		inWorld.sendMessage(plugin.getMessage("kickedFromWorld").replace("{PLAYER}", player.getName()));
 		inWorld.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
 		
     }

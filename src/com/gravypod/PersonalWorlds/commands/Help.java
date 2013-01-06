@@ -26,13 +26,13 @@ public class Help implements ICommand {
 	 */
 	@Override
 	public void command(final Player player, final String[] args, final PersonalWorlds plugin) {
-	
-		player.sendMessage("---]Help[---");
-		player.sendMessage("help - This page");
-		player.sendMessage("tp - Teleport to your world");
-		player.sendMessage("add/create {generator} - Create your own world.");
-		player.sendMessage("generator - Lists the generators you can use");
-		player.sendMessage("delete - Delete a world. Cannot be undone!");
+		
+		String[] helpMessages = plugin.getMessage("help").split(":");
+		
+		for (String line : helpMessages) {
+			player.sendMessage(line);
+		}
+		
 		
 	}
 	

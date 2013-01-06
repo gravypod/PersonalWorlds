@@ -25,7 +25,7 @@ public class Add implements ICommand {
 			
 			if (PluginUtil.hasWorld(player.getName())) {
 				
-				player.sendMessage("You already have a world! Use /pw tp to get to it!");
+				player.sendMessage(plugin.getMessage("alreadyOwnWorld"));
 				
 			}
 			
@@ -44,7 +44,7 @@ public class Add implements ICommand {
 			
 		} else {
 			
-			player.sendMessage("Invalid generator. choose one of the following generators: " + plugin.joinedGenList());
+			player.sendMessage(plugin.getMessage("invalidWorldGenerator") + plugin.joinedGenList());
 			
 		}
 		

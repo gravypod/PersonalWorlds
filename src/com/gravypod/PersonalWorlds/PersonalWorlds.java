@@ -31,10 +31,12 @@ public class PersonalWorlds extends JavaPlugin {
 	
 	private List<String> guestPerms;
 	
+	private I18n messageDB;
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onEnable() {
-	
+		
 		final File config = new File(getDataFolder() + System.getProperty("file.separator") + "config.yml");
 		
 		if (!config.exists()) {
@@ -158,6 +160,8 @@ public class PersonalWorlds extends JavaPlugin {
 			
 		});
 		
+		messageDB = new I18n(this);
+		
 	}
 	
 	@Override
@@ -274,6 +278,10 @@ public class PersonalWorlds extends JavaPlugin {
 	public void setGuestPerms(final List<String> guestPerms) {
 	
 		this.guestPerms = guestPerms;
+	}
+	
+	public String getMessage(String key) {
+		return messageDB.getColoredMessage(key);
 	}
 	
 }

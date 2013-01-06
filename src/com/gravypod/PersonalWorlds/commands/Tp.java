@@ -19,8 +19,7 @@ public class Tp implements ICommand {
 	public void command(final Player player, final String[] args, final PersonalWorlds plugin) {
 	
 		if (args.length != 2) {
-			player.sendMessage("That is not the correct ammount of arguments.");
-			player.sendMessage("Usage: /pw tp (player name)");
+			player.sendMessage(plugin.getMessage("wrongArguments"));
 			return;
 		}
 		

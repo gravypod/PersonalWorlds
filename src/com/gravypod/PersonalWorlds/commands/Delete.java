@@ -23,23 +23,23 @@ public class Delete implements ICommand {
 			
 			if (Permissions.DELETE_OTHER.canUse(player) && args.length == 2) {
 				
-				player.sendMessage("You are now deleting " + args[1] + " world!");
+				player.sendMessage(plugin.getMessage("deletingOtherWorld").replace("{PLAYER}", args[1]));
 				
 				deleteWorld(player, args[1]);
 				
-				player.sendMessage("Deleting done!");
+				player.sendMessage(plugin.getMessage("doneDeleting"));
 				
 			} else if (Permissions.DELETE.canUse(player) && args.length == 1) {
 				
-				player.sendMessage("You are now deleting your world!");
+				player.sendMessage(plugin.getMessage("deletingYourWorld"));
 				
 				deleteWorld(player, player.getName());
 				
-				player.sendMessage("Deleting done!");
+				player.sendMessage(plugin.getMessage("doneDeleting"));
 				
 			} else {
 				
-				player.sendMessage("You cannot delete that players world!");
+				player.sendMessage(plugin.getMessage("cannotDeleteWorld"));
 				
 			}
 			

@@ -396,7 +396,7 @@ public class PluginUtil {
 	
 		if (!PluginUtil.hasWorld(player)) {
 			
-			sender.sendMessage("That world does not exist");
+			sender.sendMessage(plugin.getMessage("worldDoesntExist"));
 			return;
 			
 		}
@@ -409,11 +409,11 @@ public class PluginUtil {
 		
 		if (world == null) {
 			
-			sender.sendMessage("The world is unloaded, deleting");
+			sender.sendMessage(plugin.getMessage("worldUnloaded"));
 			
 		} else {
 			
-			PluginUtil.kickPlayersOut(player, true, "This world is going to be deleted! You have been kicked!");
+			PluginUtil.kickPlayersOut(player, true, plugin.getMessage("worldIsBingDeleted"));
 			
 			server.unloadWorld(worldName, false);
 			
