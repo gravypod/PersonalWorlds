@@ -3,6 +3,7 @@ package com.gravypod.PersonalWorlds.commands;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.gravypod.PersonalWorlds.Permissions;
 import com.gravypod.PersonalWorlds.PersonalWorlds;
 import com.gravypod.PersonalWorlds.WorldGenerator;
 import com.gravypod.PersonalWorlds.CommandHandlers.ICommand;
@@ -20,7 +21,7 @@ public class Add implements ICommand {
 	@Override
 	public void command(final Player player, final String[] args, final PersonalWorlds plugin) {
 	
-		if (args.length == 2 && player.hasPermission("PersonalWorlds.generators." + args[1])) {
+		if (args.length >= 2 && Permissions.GENERATOR.canUse(player, args[1])) {
 			
 			if (PluginUtil.hasWorld(player.getName())) {
 				
@@ -28,7 +29,9 @@ public class Add implements ICommand {
 				
 			}
 			
-			new WorldGenerator(plugin, player, args[1]);
+			if (!PluginUtil.hasWorld(player.getName())) {
+				new WorldGenerator(plugin, player, args[1]);
+			}
 			
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				

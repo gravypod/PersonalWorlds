@@ -4,6 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.gravypod.PersonalWorlds.PersonalWorlds;
+
 public class TeleportUtils {
 	
 	/**
@@ -24,11 +26,7 @@ public class TeleportUtils {
 			return;
 		}
 		
-		final Location spawnLocation = world.getSpawnLocation();
-		
-		world.loadChunk(spawnLocation.getChunk());
-		
-		player.teleport(PluginUtil.safeSpawnLoc(spawnLocation));
+		TeleportUtils.teleportToWorld(world, player);
 		
 	}
 	
@@ -59,6 +57,12 @@ public class TeleportUtils {
 			friend.sendMessage(player.getName() + " has teleported to your world!");
 		}
 		
+		TeleportUtils.teleportToWorld(world, player);
+		
+	}
+	
+	public static void teleportToWorld(final World world, final Player player) {
+	
 		final Location spawnLocation = world.getSpawnLocation();
 		
 		world.getChunkAt(spawnLocation).load();
@@ -77,20 +81,23 @@ public class TeleportUtils {
 	 *            - world
 	 * 
 	 */
-	public static void tpOverride(final Player player, final String worldName) {
+	public static void tpOverride(final Player player, final String worldName, PersonalWorlds plugin) {
 	
 		final World world;
 		
-		if ((world = PluginUtil.loadWorld(worldName)) == null) {
-			player.sendMessage("That is not a real world!");
-			return;
+		
+		if (!PluginUtil.isWorldLoaded(worldName)) {
+			if ((world = PluginUtil.loadWorld(worldName)) == null) {
+				player.sendMessage("That is not a real world!");
+				return;
+			}
+		} else {
+			
+			world = PluginUtil.matchOnlinePlayer(worldName.split("_")[0]).getWorld();
+			
 		}
 		
-		final Location spawnLocation = world.getSpawnLocation();
-		
-		world.getChunkAt(spawnLocation).load();
-		
-		player.teleport(PluginUtil.safeSpawnLoc(spawnLocation));
+		TeleportUtils.teleportToWorld(world, player);
 		
 	}
 	

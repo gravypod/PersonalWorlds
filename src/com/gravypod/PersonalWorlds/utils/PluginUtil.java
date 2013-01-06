@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -76,6 +77,28 @@ public class PluginUtil {
 		
 	}
 	
+	/**
+	 * Match a player with a player name you give
+	 * 
+	 * @param name
+	 * @return Player who matched the name. Player will be online, null if no
+	 *         one.
+	 * 
+	 */
+	public static Player matchOnlinePlayer(final String name) {
+	
+		final List<Player> players = PluginUtil.server.matchPlayer(name);
+		
+		switch(players.size()) {
+		
+			case 1:
+				return players.get(0);
+			default:
+				return null;
+		}
+		
+	}
+	
 	public static Player matchName(final String name) {
 	
 		return PluginUtil.server.getPlayer(name);
@@ -138,6 +161,11 @@ public class PluginUtil {
 		
 	}
 	
+	public static String worldName(final String name, final String worldName) {
+	
+		return PluginUtil.worldName(name) + "_" + worldName;
+	}
+	
 	/**
 	 * Finds if a world name is a player owned world.
 	 * 
@@ -164,12 +192,9 @@ public class PluginUtil {
 			
 			spawnLocation.setY(spawnLocation.getWorld().getMaxHeight());
 			
-			World world = spawnLocation.getWorld();
-			
+			final World world = spawnLocation.getWorld();
 			
 			return world.getHighestBlockAt(spawnLocation).getLocation();
-			
-			
 			
 		}
 		
@@ -212,19 +237,66 @@ public class PluginUtil {
 	}
 	
 	/**
+	 * List all the worlds a player has
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public static String[] listWorlds(final String player) {
+	
+		final File[] worldFolder = new File(PluginUtil.plugin.getName()).listFiles();
+		
+		final StringBuilder homes = new StringBuilder(ChatColor.AQUA.toString() + "");
+		
+		int howMany = 0;
+		
+		for (final File worldFile : worldFolder) {
+			
+			if (worldFile.isDirectory() && worldFile.getName().startsWith(player)) {
+				
+				String name = worldFile.getName();
+				
+				if (name.equals(player)) {
+					
+					name = "main";
+					
+				} else {
+					
+					name = name.substring(player.length() + 1);
+					
+				}
+				
+				homes.append(name + ", ");
+				
+				howMany++;
+				
+			}
+			
+		}
+		
+		final String[] messages = new String[] { ChatColor.AQUA.toString() + "You have " + howMany + " homes.", homes.substring(0, homes.length() - 2).toString() };
+		
+		return messages;
+		
+	}
+	
+	/**
 	 * Loads a world from a player name.
 	 * 
 	 * @param playerName
+	 *            - Player to make a world for
+	 * @param givenWorldName
+	 *            - World name given by the player
 	 * @return World object that has been loaded
 	 * 
 	 */
-	public static World loadWorld(final String playerName) {
+	public static World loadWorld(final String playerName, final String givenWorldName) {
 	
 		if (PluginUtil.hasWorld(playerName)) {
 			
 			World world;
 			
-			final String worldName = PluginUtil.worldName(playerName);
+			final String worldName = givenWorldName == "" ? PluginUtil.worldName(playerName) : PluginUtil.worldName(playerName, givenWorldName);
 			
 			if (PluginUtil.isWorldLoaded(worldName)) {
 				
@@ -234,12 +306,9 @@ public class PluginUtil {
 				
 				Environment worldEnv = null;
 				for (final Environment env : Environment.values()) {
-					// new File(worldName + System.getProperty("file.separator")
-					// + "is" + genName)
 					final File checkFile = new File(worldName + System.getProperty("file.separator") + "is" + env.name());
 					if (checkFile.exists()) {
 						worldEnv = env;
-						// continue;
 					}
 				}
 				
@@ -261,6 +330,19 @@ public class PluginUtil {
 		}
 		
 		return null;
+		
+	}
+	
+	/**
+	 * Loads a world from a player name.
+	 * 
+	 * @param playerName
+	 * @return World object that has been loaded
+	 * 
+	 */
+	public static World loadWorld(final String playerName) {
+	
+		return PluginUtil.loadWorld(playerName, "");
 		
 	}
 	
@@ -310,39 +392,45 @@ public class PluginUtil {
 	 * @param player
 	 * 
 	 */
-	public static void deleteWorld(final String player) {
+	public static void deleteWorld(final Player sender, final String player) {
 	
-		final String playerName = PluginUtil.matchPlayer(player);
-		
-		if (PluginUtil.hasWorld(playerName)) {
+		if (!PluginUtil.hasWorld(player)) {
 			
-			final String worldName = PluginUtil.worldName(playerName);
-			
-			final World world = PluginUtil.plugin.getServer().getWorld(worldName);
-			
-			if (world == null) {
-				
-				return;
-			}
-			
-			PluginUtil.kickPlayersOut(playerName, true, "This world is going to be deleted! You have been kicked!");
-			
-			PluginUtil.plugin.getServer().unloadWorld(worldName, false);
-			
-			PluginUtil.plugin.getServer().getScheduler().scheduleSyncDelayedTask(PluginUtil.plugin, new Runnable() {
-				
-				@Override
-				public void run() {
-				
-					final File worldFile = new File(worldName);
-					
-					PluginUtil.deleteFile(worldFile);
-					
-				}
-				
-			});
+			sender.sendMessage("That world does not exist");
+			return;
 			
 		}
+		
+		final String worldName = PluginUtil.worldName(player);
+		
+		final Server server = PluginUtil.plugin.getServer();
+		
+		final World world = server.getWorld(worldName);
+		
+		if (world == null) {
+			
+			sender.sendMessage("The world is unloaded, deleting");
+			
+		} else {
+			
+			PluginUtil.kickPlayersOut(player, true, "This world is going to be deleted! You have been kicked!");
+			
+			server.unloadWorld(worldName, false);
+			
+		}
+		
+		server.getScheduler().runTaskAsynchronously(PluginUtil.plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				final File worldFile = new File(worldName);
+				
+				PluginUtil.deleteFile(worldFile);
+				
+			}
+			
+		});
 		
 	}
 	
@@ -390,39 +478,29 @@ public class PluginUtil {
 	 * @param file
 	 * 
 	 */
-	public static void deleteFile(final File file) {
+	public static void deleteFile(final File folder) {
 	
-		synchronized(file) {
-			
-			if (file.isDirectory()) {
-				
-				File[] children = file.listFiles();
-				
-				if (children != null) {
-					
-					for (final File child : children) {
-						PluginUtil.deleteFile(child);
-					}
-					
-				}
-				
-				children = file.listFiles();
-				
-				if (children == null || children.length == 0) {
-					
-					if (!file.delete()) {
-						System.out.println("Error: Could not delete folder: " + file.getPath());
-					}
-					
-				}
-				
-			} else if (file.isFile()) {
-				
-				if (!file.delete()) {
-					System.out.println("Error: Could not delete file: " + file.getPath());
-				}
-				
-			}
+		synchronized(folder) {
+		    File[] files = folder.listFiles();
+		    
+		    if(files!=null) { //some JVMs return null for empty dirs
+		        
+		    	for(File f: files) {
+		            
+		    		if(f.isDirectory()) {
+		                
+		    			deleteFile(f);
+		            
+		    		} else {
+		                
+		    			f.delete();
+		            }
+		    		
+		        }
+		    	
+		    }
+		    
+		    folder.delete();
 			
 		}
 		

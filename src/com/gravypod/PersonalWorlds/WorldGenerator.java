@@ -35,19 +35,28 @@ public class WorldGenerator {
 	
 	final String generator;
 	
+	final String worldName;
+	
+	final World w;
+	
 	public WorldGenerator(final PersonalWorlds plugin, final Player player, final String type) {
+	
+		this(plugin, player, type, "");
+	}
+	
+	public WorldGenerator(final PersonalWorlds plugin, final Player player, final String type, final String worldName) {
 	
 		this.player = player;
 		this.plugin = plugin;
 		generator = type;
+		this.worldName = worldName;
+		w = PluginUtil.loadWorld(player.getName(), worldName);
 		run();
 		
 	}
 	
 	public void run() {
 	
-		final World w = PluginUtil.loadWorld(player.getName());
-		
 		if (w == null) {
 			
 			final String worldName = PluginUtil.worldName(player.getName());
@@ -98,9 +107,9 @@ public class WorldGenerator {
 				
 				@Override
 				public void run() {
-					
-					player.sendMessage("You are teleported to your world!");
 				
+					player.sendMessage("You are teleported to your world!");
+					
 					world.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
 					
 					final Location safeLoc = PluginUtil.safeSpawnLoc(spawnLocation);
@@ -121,7 +130,6 @@ public class WorldGenerator {
 				}
 				
 			});
-			
 			
 		} else {
 			

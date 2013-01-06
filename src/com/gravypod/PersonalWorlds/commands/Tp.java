@@ -2,6 +2,7 @@ package com.gravypod.PersonalWorlds.commands;
 
 import org.bukkit.entity.Player;
 
+import com.gravypod.PersonalWorlds.Permissions;
 import com.gravypod.PersonalWorlds.PersonalWorlds;
 import com.gravypod.PersonalWorlds.CommandHandlers.ICommand;
 import com.gravypod.PersonalWorlds.utils.TeleportUtils;
@@ -17,23 +18,20 @@ public class Tp implements ICommand {
 	@Override
 	public void command(final Player player, final String[] args, final PersonalWorlds plugin) {
 	
-		if (args.length == 2) {
+		if (args.length != 2) {
+			player.sendMessage("That is not the correct ammount of arguments.");
+			player.sendMessage("Usage: /pw tp (player name)");
+			return;
+		}
+		
+		if (Permissions.OVERRIDE.canUse(player)) {
 			
-			if (player.hasPermission("personalworlds.tp.override")) {
-				
-				TeleportUtils.tpOverride(player, args[1]);
-				
-				return;
-				
-			}
-			
-			TeleportUtils.tpToFriend(player, args[1]);
-			
-		} else {
-			
-			TeleportUtils.tpToMy(player);
+			TeleportUtils.tpOverride(player, args[1], plugin);
+			return;
 			
 		}
+		
+		TeleportUtils.tpToFriend(player, args[1]);
 		
 	}
 	

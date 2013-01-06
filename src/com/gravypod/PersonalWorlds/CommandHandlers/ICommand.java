@@ -16,6 +16,6 @@ public interface ICommand {
 	 * @param plugin
 	 *            - plugin instance
 	 */
-	void command(Player player, String[] args, PersonalWorlds plugin);
+	void command(final Player player, final String[] args, final PersonalWorlds plugin);
 	
 }

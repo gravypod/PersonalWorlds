@@ -79,17 +79,20 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void prePlayerLogin(final AsyncPlayerPreLoginEvent event) {
-	
+		
 		synchronized(plugin) {
+			
 			bukkitScheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
 				
 				@Override
 				public void run() {
-				
 					PluginUtil.loadWorld(event.getName());
 				}
+				
 			});
+			
 		}
+		
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -110,6 +113,8 @@ public class PlayerListener implements Listener {
 		
 		if (!player.getWorld().hasMetadata(plugin.getPluginName())) {
 			plugin.getServer().unloadWorld(PluginUtil.worldName(player.getName()), true);
+		} else {
+			PluginUtil.loadWorld(player.getMetadata(plugin.getPluginName()).get(0).asString());
 		}
 		
 	}
@@ -119,16 +124,17 @@ public class PlayerListener implements Listener {
 	
 		final String playerName = event.getPlayer().getName();
 		
-		PluginUtil.kickPlayersOut(playerName, true, "The world owner has left the game! You have been kicked out.");;
+		PluginUtil.kickPlayersOut(playerName, true, "The world owner has left the game! You have been kicked out.");
 		
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			
 			@Override
 			public void run() {
-			
+				
 				plugin.getServer().unloadWorld(PluginUtil.worldName(playerName), true);
 				
 			}
+			
 		});
 		
 		PersonalPerms.removeAttachment(playerName);
@@ -137,7 +143,7 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void playerChangeWorldListener(final PlayerChangedWorldEvent event) {
-	
+		
 		final World worldFrom = event.getFrom();
 		
 		final Player player = event.getPlayer();
@@ -145,34 +151,42 @@ public class PlayerListener implements Listener {
 		PersonalPerms.assignPermissions(player);
 		
 		if (worldFrom.getPlayers().size() <= 1) {
+			
 			if (PluginUtil.isPlayerWorld(worldFrom.getName())) {
 				
-				if (plugin.getServer().unloadWorld(worldFrom, true)) {
-					;
-				}
+				plugin.getServer().unloadWorld(worldFrom, true);
 				
 			}
+			
 		}
 		
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void playerTpEvent(final PlayerTeleportEvent event) {
-	
+		
 		final Player player = event.getPlayer();
 		
+		if (!event.getFrom().getWorld().equals(event.getTo().getWorld())) {
+			PersonalPerms.assignPermissions(player);
+		}
+		
 		if (PluginUtil.isPlayerWorld(player.getName())) {
+			
 			if (PluginUtil.borderTest(event.getTo())) {
+				
 				player.sendMessage("You cannot teleport out of your world!");
 				event.setCancelled(true);
+				
 			}
+			
 		}
 		
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void entityMoveEvent(final VehicleMoveEvent event) {
-		
+	
 		final Vehicle v = event.getVehicle();
 		
 		if (!PluginUtil.isPlayerWorld(v.getWorld().getName())) {
