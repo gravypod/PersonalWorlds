@@ -16,3 +16,4 @@ Version 1.2:
 	- Per-gen permissions
 Version 1.2.1:
 	- Permissions system added. 
+	- Make Build server auto build
