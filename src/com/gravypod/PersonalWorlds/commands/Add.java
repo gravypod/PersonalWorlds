@@ -32,7 +32,7 @@ public class Add {
 			
 			new WorldGenerator(plugin, player, args[1]);
 		
-			player.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
+			player.setMetadata(plugin.getName(), new FixedMetadataValue(plugin, true));
 			
 		} else {
 			

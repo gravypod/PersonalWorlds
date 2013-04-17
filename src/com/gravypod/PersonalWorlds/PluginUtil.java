@@ -115,7 +115,7 @@ public class PluginUtil {
 	 */
 	public static String worldName(String name) {
 		
-		return plugin.getPluginName() + System.getProperty("file.separator") + name;
+		return plugin.getName() + System.getProperty("file.separator") + name;
 		
 	}
 	
@@ -128,7 +128,7 @@ public class PluginUtil {
 	 */
 	public static Boolean isPlayerWorld(String playerName) {
 		
-		return playerName.startsWith(plugin.getPluginName() + System.getProperty("file.separator"));
+		return playerName.startsWith(plugin.getName() + System.getProperty("file.separator"));
 		
 	}
 
@@ -228,7 +228,7 @@ public class PluginUtil {
 				
 				world = plugin.getServer().createWorld(worldCreator);
 				
-				world.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
+				world.setMetadata(plugin.getName(), new FixedMetadataValue(plugin, true));
 				
 			} 
 			

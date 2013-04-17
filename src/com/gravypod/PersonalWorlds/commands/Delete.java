@@ -29,7 +29,7 @@ public class Delete {
 
 		if (args.length == 2) {
 			
-			if (player.hasPermission(plugin.getPluginName() + ".delete.other")) {
+			if (player.hasPermission(plugin.getName() + ".delete.other")) {
 				
 				player.sendMessage("You are now deleting " + args[1] + " world!");
 				

@@ -52,7 +52,7 @@ public class PlayerListener implements Listener {
 			
 		// Checks if the player name == a world name; If so, it /must/ be a player world
 		
-		List<MetadataValue> m = player.getWorld().getMetadata(plugin.getPluginName());
+		List<MetadataValue> m = player.getWorld().getMetadata(plugin.getName());
 		
 		if(m.isEmpty())
 			return;
@@ -94,7 +94,7 @@ public class PlayerListener implements Listener {
 		}, 1);
 		
 		
-		if (!player.getWorld().hasMetadata(plugin.getPluginName())) {
+		if (!player.getWorld().hasMetadata(plugin.getName())) {
 			plugin.getServer().unloadWorld(PluginUtil.worldName(player.getName()), true);
 		}
 		

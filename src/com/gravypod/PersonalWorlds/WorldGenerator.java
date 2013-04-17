@@ -91,7 +91,7 @@ public class WorldGenerator {
 				world.loadChunk(spawnChunk);
 			}
 			
-			world.setMetadata(plugin.getPluginName(), new FixedMetadataValue(plugin, true));
+			world.setMetadata(plugin.getName(), new FixedMetadataValue(plugin, true));
 		
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 
